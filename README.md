@@ -1,2 +1,4 @@
 # YouTube-file-downloader-mp4-mp3
-A simple scrip that is capable of downloading .mp4/.mp3 files from YouTube videos.  
+This is a simple script that is capable of downloading both MP4 and MP3 files from YouTube videos. 
+It has a user-friendly GUI built with tkinter, and an executable file that contains all the necessary libraries
+
