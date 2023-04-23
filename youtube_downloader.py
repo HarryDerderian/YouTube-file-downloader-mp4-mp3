@@ -1,8 +1,11 @@
 import os
-import shutil
-import tkinter.messagebox
+from shutil import disk_usage
+from tkinter.messagebox import askyesno
 
-from pytube import YouTube, exceptions
+from pytube import YouTube
+from pytube.exceptions import VideoRegionBlocked, MembersOnly, VideoUnavailable 
+from pytube.exceptions import RegexMatchError, VideoPrivate, LiveStreamError, ExtractError
+
 from moviepy.audio.io.AudioFileClip import AudioFileClip
 
 class YouTubeDownloader:
@@ -55,10 +58,10 @@ class YouTubeDownloader:
              total_attempts += 1 
         if not mp4_file:
             raise Exception("Unable to querry specific video data.")
-        free_bytes = shutil.disk_usage(self._download_path)[2]
+        free_bytes = disk_usage(self._download_path)[2]
         free_gb_str = "\nAvilable: %.1f GB" %(free_bytes / (2**30))
         msg = "Title: " + yt.title + "\n" +"Size: %.1f MB" %mp4_file.filesize_mb + free_gb_str
-        confirmation = tkinter.messagebox.askyesno("Confirm download", msg)
+        confirmation = askyesno("Confirm download", msg)
         if confirmation: 
             if free_bytes > mp4_file.filesize:
                return mp4_file.download(self._download_path)
@@ -109,19 +112,17 @@ class YouTubeDownloader:
         if youtube.age_restricted:
             raise Exception("Video is age-restricted.")
         return youtube
-      except exceptions.VideoRegionBlocked:
+      except  VideoRegionBlocked:
         raise Exception("Video is region blocked.")
-      except exceptions.MembersOnly:
+      except  MembersOnly:
         raise Exception("Video is set to members only.")
-      except exceptions.RegexMatchError:
+      except  RegexMatchError:
         raise Exception("Unable to validate URL.")
-      except exceptions.VideoPrivate:
+      except  VideoPrivate:
         raise Exception("Unable to download, video is private.")
-      except exceptions.LiveStreamError:
+      except  LiveStreamError:
         raise Exception("Unable to download, video is a livestream.")
-      except exceptions.VideoUnavailable:
+      except  VideoUnavailable:
         raise Exception("Unable to download, video is unavailable.")
-      except exceptions.HTMLParseError:
-        raise Exception("Page's HTML had unexpected changes.")
-      except exceptions.ExtractError:
+      except  ExtractError:
         raise Exception("Video extracting error, try again.")

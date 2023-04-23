@@ -1,6 +1,7 @@
-import time
-import threading
-from tkinter import Tk, Frame, Label, Entry, Button, messagebox, ttk
+from time import sleep
+from threading import Thread
+from tkinter import Tk, Frame, Label, Entry, Button, messagebox
+from tkinter.ttk import Progressbar
 
 from youtube_downloader import YouTubeDownloader
 
@@ -97,7 +98,7 @@ class YouTubeToMp3:
                                       fg = self._TEXT_COLOR, text = "Download Audio 🢂 .mp3", 
                                       width = self._BUTTON_WIDTH, height =self._BUTTON_HEIGHT,
                                       font = self._MAIN_FONT,
-                                      command = lambda: threading.Thread(target=self._download_mp3).start())
+                                      command = lambda: Thread(target=self._download_mp3).start())
         self._get_mp3_button.place(x=450,y=250)
     
 
@@ -108,7 +109,7 @@ class YouTubeToMp3:
                                       fg = self._TEXT_COLOR, text = "Download Video 🢂 .mp4", 
                                       width = self._BUTTON_WIDTH, height =self._BUTTON_HEIGHT,
                                       font = self._MAIN_FONT,
-                                      command = lambda: threading.Thread(target=self._download_mp4).start())
+                                      command = lambda: Thread(target=self._download_mp4).start())
         self._get_mp4_button.place(x = 450, y= 300)
 
 
@@ -120,7 +121,7 @@ class YouTubeToMp3:
         self._downloader.update_url(self._url_input.get())
         self._downloader.update_download_path(self._file_path_input.get().strip('\"'))
         try :
-            threading.Thread(target=self._update_current_progress).start()
+            Thread(target=self._update_current_progress).start()
             filepath = self._downloader.download_mp3()
             self._download_in_progress = False
             messagebox.showinfo(title="Success!", message="video has been downloaded to: " + filepath)
@@ -139,7 +140,7 @@ class YouTubeToMp3:
         self._downloader.update_url(self._url_input.get())
         self._downloader.update_download_path(self._file_path_input.get().strip('\"'))
         try :
-             threading.Thread(target=self._update_current_progress).start()
+             Thread(target=self._update_current_progress).start()
              filepath = self._downloader.download_mp4()
              self._download_in_progress = False
              messagebox.showinfo(title="Success!", message="video has been downloaded to: " + filepath)
@@ -151,7 +152,7 @@ class YouTubeToMp3:
         
 
     def _build_progress_bar(self) :
-        self._progressbar = ttk.Progressbar(orient="horizontal",length = 350, value=100, mode = "determinate")
+        self._progressbar = Progressbar(orient="horizontal",length = 350, value=100, mode = "determinate")
         self._progressbar.place(x=50, y =290)
     
 
@@ -170,6 +171,6 @@ class YouTubeToMp3:
             self._progressbar["value"] += i
             self._downloading_label.config(text= "Download progress: " +str("%.2f"%self._progressbar["value"]) +"%" )
             self._root.update_idletasks()
-            time.sleep(1)
+            sleep(1)
         self._progressbar["value"] = 100
         self._downloading_label.config(text= "Download complete!")
