@@ -86,7 +86,7 @@ class YouTubeDownloader:
          try:
             mp4_clip = AudioFileClip(filename=mp4_path)
             mp3_path = os.path.splitext(mp4_path)[0] + ".mp3"
-            mp4_clip.write_audiofile(filename=mp3_path)
+            mp4_clip.write_audiofile(filename=mp3_path, logger=None)
             mp4_clip.close()
             os.remove(mp4_path)
             return mp3_path
