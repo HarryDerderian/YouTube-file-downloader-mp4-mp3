@@ -27,7 +27,11 @@ class YouTubeDownloader:
          mp4_path = self.download_mp4()
          if not mp4_path:
              return None
-         return self._convert_mp4_to_mp3(mp4_path)
+         try :
+            return self._convert_mp4_to_mp3(mp4_path)
+         except Exception as e :
+            print(str(e))
+            
 
 
     def download_mp4(self) -> str | None:
