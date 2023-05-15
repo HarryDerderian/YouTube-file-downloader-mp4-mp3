@@ -51,15 +51,8 @@ class YouTubeDownloader:
         yt = self._verify_and_get_yt()
         if not yt: 
            return  
-        max_attempts = 5
-        total_attempts = 0
-        while max_attempts > total_attempts : # Occasional exception from KeyError 'streamingData' retrying can fix it.
-          try: 
-            mp4_file = yt.streams.filter(only_audio=False, only_video=False, 
+        mp4_file = yt.streams.filter(only_audio=False, only_video=False, 
                                          file_extension="mp4").get_highest_resolution()
-            break
-          except KeyError as e :
-             total_attempts += 1 
         if not mp4_file:
             raise Exception("Unable to querry specific video data.")
         free_bytes = disk_usage(self._download_path)[2]

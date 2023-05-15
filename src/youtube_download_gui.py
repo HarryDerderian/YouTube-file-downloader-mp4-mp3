@@ -124,7 +124,7 @@ class YouTubeToMp3:
             Thread(target=self._update_current_progress).start()
             filepath = self._downloader.download_mp3()
             self._download_in_progress = False
-            messagebox.showinfo(title="Success!", message="video has been downloaded to: " + filepath)
+            messagebox.showinfo(title="Success!", message="Audio has been downloaded to: " + filepath)
         except Exception as e:
             self._download_in_progress = False
             messagebox.showerror(title="Error downloading audio.", message=str(e))
@@ -143,7 +143,7 @@ class YouTubeToMp3:
              Thread(target=self._update_current_progress).start()
              filepath = self._downloader.download_mp4()
              self._download_in_progress = False
-             messagebox.showinfo(title="Success!", message="video has been downloaded to: " + filepath)
+             messagebox.showinfo(title="Success!", message="Video has been downloaded to: " + filepath)
         except Exception as e :
             self._download_in_progress = False
             messagebox.showerror(title="Error downloading video.", message=str(e))
